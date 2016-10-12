@@ -24,15 +24,21 @@ INTERP_1D(log)
 INTERP_1D(loglog)
 #undef INTERP_1D
 
+#ifdef LOW_GSL
+#define DEFAULT_INTERP gsl_interp_cspline
+#else
+#define DEFAULT_INTERP gsl_interp_steffen
+#endif
+
 // gsl 1D interpolation only support double
 bool interp_1D_gsl(const double *, const double *, int,
                    const double *,       double *, int,
-                   const gsl_interp_type * type = gsl_interp_steffen);
+                   const gsl_interp_type * type = DEFAULT_INTERP);
 bool interp_1D_gsl(const pArray &, const pArray &,
                    const pArray &,       pArray &,
-                   const gsl_interp_type * type = gsl_interp_steffen);
+                   const gsl_interp_type * type = DEFAULT_INTERP);
 bool interp_1D_gsl(const vector<double> &, const vector<double> &,
                    const vector<double> &,       vector<double> &,
-                   const gsl_interp_type * type = gsl_interp_steffen);
+                   const gsl_interp_type * type = DEFAULT_INTERP);
 }
 #endif
